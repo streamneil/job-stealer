@@ -1,0 +1,25 @@
+[default]
+# 大模型相关配置
+model_base_url = 
+model = llama3:8b
+
+[boss]
+# jobId, 通过boss职位管理查看
+jobs_id = ******
+# 职位名称，最好英文，便于大模型提示词
+job_name = ***
+# 经验 5-10年
+experience = 5-10年
+# 学历
+educational_level = 本科
+# cookie
+cookie = _yiy7zPTxg%7E%7E; __c=1716338474; __a=40165811.1716338474..1716338474.62.1.62.62
+# 推荐牛人 列表
+geek_list_url = "https://www.zhipin.com/wapi/zpjob/rec/geek/list?age=16,-1&major=0&activation=0&gender=0&recentNotView=0&exchangeResumeWithColleague=0&school=0&switchJobFrequency=0&experience=0&degree=0&salary=0&intention=0&coverScreenMemory=0&cardType=0"
+# 牛人详情
+geek_info_url = "https://www.zhipin.com/wapi/zpjob/view/geek/info?entrance=0&wayType=0&sourceType=3"
+# 打招呼
+chat_start_url = "https://www.zhipin.com/wapi/zpjob/chat/start"
+# 职位详情
+job_detail_url = "https://www.zhipin.com/wapi/zpjob/job/edit"
+
