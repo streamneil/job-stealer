@@ -4,21 +4,14 @@
 import requests,time, json
 
 def get_request(url, headers, params=None):
-    if params is None:
-        params = {}
-
     response = requests.get(url, params=params, headers=headers, timeout=10)
     assert response.status_code == 200
-    _ = json.loads(response.content.decode())
-    return _
+    return json.loads(response.content.decode('utf-8'))
 
-def post_request(url, headers=None, body=None):
-    if body is None:
-        body = {}
-
-    response = requests.post(url, headers=headers, json=body)
+def post_request(url, headers=None, data=None, json_data=None):
+    response = requests.post(url, headers=headers, data=data, json=json_data)
     assert response.status_code == 200
-    return json.loads(response.text)
+    return json.loads(response.content.decode('utf-8'))
 
 def create_cookie_header(cookie_dict):
     # 将字典转换为cookie字符串

@@ -16,4 +16,8 @@ logs/
 config.ini
 startup.sh
 __pycache__/
-output/*
+*.txt
+*.job_description
+data/output/
+
+
