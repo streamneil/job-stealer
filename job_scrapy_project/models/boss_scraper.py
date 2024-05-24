@@ -122,13 +122,12 @@ class BossScraper(BaseScraper):
 
         prompt = f"""
             Now you want to recruit a {self.config.job_name}. You are an expert in your field.  You need to evaluate the candidate's resume against the requirements of the position.
-            If you think the candidate is very competent, your evaluation is A; if the candidate is competent, your evaluation is B; if the candidate is incompetent, your evaluation is C; if the candidate is completely unqualified, your evaluation It's D.
-
             Your output must be in the following format, and please use Chinese for the reasons:
             {{
-                "evaluate": "",
-                "reason": ""
+                "evaluation": "your evaluation",
+                "reason": "The reason for your evaluation"
             }}
+            If you think the candidate is very capable, your evaluation is A, and the output is in the 'evaluate' field; if the candidate is capable, your evaluation is B, and the output is in the 'evaluate' field; if the candidate is incompetent, Your evaluation is C, and the output is in the 'evaluate' field; if the candidate is completely unqualified, your evaluation is D, and the output is in the 'evaluate' field. And in the 'reason' field, output the reason for your evaluation in Chinese.
 
             ******************
             The following are the requirements for this recruitment position:
@@ -164,7 +163,7 @@ class BossScraper(BaseScraper):
                 reason = res['reason']
     
         # 缓存简历 [20240512][A]王二小.txt
-        cretetime = time.strftime("%Y%m%d", time.localtime())
+        cretetime = time.strftime("%Y%m%d %H%M", time.localtime())
         fileutils.save_data_to_file(f"{self.OUTPUT_PATH}[{cretetime}][{evaluation}]{geek.name}.txt", geek.generate_resume() + f"\n\n评价：\n[{evaluation}]\n" + reason)
         return evaluation == 'A' or evaluation == 'B' or evaluation == 'E'
         
