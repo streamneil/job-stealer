@@ -1,25 +1,24 @@
 [default]
 # 大模型相关配置
-model_base_url = 
-model = llama3:8b
+model_base_url = http://10.0.*.*:*/api/generate
+model = *:*
 
 [boss]
 # jobId, 通过boss职位管理查看
-jobs_id = ******
+jobs_id = 5c1b41c751c520a01n193dq8Fl**
 # 职位名称，最好英文，便于大模型提示词
-job_name = ***
+job_name = Android Senior Development Engineer
 # 经验 5-10年
 experience = 5-10年
 # 学历
 educational_level = 本科
-# cookie
-cookie = _yiy7zPTxg%7E%7E; __c=1716338474; __a=40165811.1716338474..1716338474.62.1.62.62
+# cookie, 24h过期好像
+cookie = __g=-; wd_guid=22974a5c-2736-4c70-925f-8540a737dde8; historyState=state; lastCity=101190100; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1716338477; boss_login_mode=app; wt2=DxeEDEoo2ARsO1pJbmoskYSoK0bU4-3C1-QXIsm_1ahf9VGwCRwLa6aqqpHYsElr6xnBjeR4dgQEN1AGv2RzxQg~~; wbg=1; zp_at=NtHLWT89IXbsiSutZTArl1UTMwpz7Ylm0JJyQRSk5mI~; geek_zp_token=V1RtIhFOL-3FlgXdJoyR4eLCu27jnXxg~~; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1716364523; __l=l=%2Fwww.zhipin.com%2Fweb%2Fchat%2Frecommend&r=&g=&s=3&friend_source=0&s=3&friend_source=0; zp_token=V1RtIhFOL-3FlgXdJoyR4fKyiy7zPTxg%7E%7E; __c=1716338474; __a=40165811.1716338474..1716338474.62.1.62.62
 # 推荐牛人 列表
-geek_list_url = "https://www.zhipin.com/wapi/zpjob/rec/geek/list?age=16,-1&major=0&activation=0&gender=0&recentNotView=0&exchangeResumeWithColleague=0&school=0&switchJobFrequency=0&experience=0&degree=0&salary=0&intention=0&coverScreenMemory=0&cardType=0"
+geek_list_url = https://www.zhipin.com/wapi/zpjob/rec/geek/list?age=16,-1&major=0&activation=0&gender=0&recentNotView=0&exchangeResumeWithColleague=0&school=0&switchJobFrequency=0&experience=0&degree=0&salary=0&intention=0&coverScreenMemory=0&cardType=0
 # 牛人详情
-geek_info_url = "https://www.zhipin.com/wapi/zpjob/view/geek/info?entrance=0&wayType=0&sourceType=3"
+geek_info_url = https://www.zhipin.com/wapi/zpjob/view/geek/info?entrance=0&wayType=0&sourceType=3
 # 打招呼
-chat_start_url = "https://www.zhipin.com/wapi/zpjob/chat/start"
+chat_start_url = https://www.zhipin.com/wapi/zpjob/chat/start
 # 职位详情
-job_detail_url = "https://www.zhipin.com/wapi/zpjob/job/edit"
-
+job_detail_url = https://www.zhipin.com/wapi/zpjob/job/edit
