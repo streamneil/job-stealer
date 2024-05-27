@@ -38,7 +38,7 @@ class JobScraper:
         print(f'-------- 已初步筛选出 [{len(filtered_candidates)}] 份简历 -------- ')
         for candidate in filtered_candidates:
             # 防止被封
-            print(f"-----获取牛人简历详情：开始抓取 [{candidate['geekCard']['geekName']}] 的简历....")
+            print(f"-----获取牛人简历详情：开始抓取 [{candidate['geekCard']['geekName'] if candidate['geekCard'] and 'geekName' in candidate['geekCard'] else candidate['geekCard']['name']}] 的简历....")
             time.sleep(random.randint(10, 40))
             geek = scraper.get_candidate_details(candidate)
             if scraper.compare_with_job(job, geek):

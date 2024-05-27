@@ -22,3 +22,5 @@ geek_info_url = https://www.zhipin.com/wapi/zpjob/view/geek/info?entrance=0&wayT
 chat_start_url = https://www.zhipin.com/wapi/zpjob/chat/start
 # 职位详情
 job_detail_url = https://www.zhipin.com/wapi/zpjob/job/edit
+# 搜索牛人，VIP功能
+geek_search_url = https://www.zhipin.com/wapi/zpitem/web/boss/search/geeks.json?keywords=&tag=&city=101190100&gender=1&experience=2,9&salary=12,22&age=-1,-1&schoolLevel=1101,1102,1103,1104&applyStatus=701,703,704&degree=203,201&switchFreq=1&manageExperience=0&geekJobRequirements=0&exchangeResume=0&viewResume=0&firstDegree=0&queryAnd=0&companyNamesForHunter=&companySearchTypeForHunter=0&source=4&majorCodes=60016&activeness=4&certificates=&certificateNames=&filterParams=%7B%22sortType%22:1,%22region%22:%7B%22cityCode%22:101190100,%22cityName%22:%22%E5%8D%97%E4%BA%AC%22,%22areas%22:[]%7D,%22overSeaWorkExperience%22:0,%22overSeaWorkLanguage%22:0,%22manageExperience%22:0%7D&defaultCondition=2&select=true&_=1716781192373

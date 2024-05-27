@@ -45,6 +45,7 @@ class Config:
         self.geek_info_url = self.config.get('boss', 'geek_info_url', fallback='')
         self.job_detail_url = self.config.get('boss', 'job_detail_url', fallback='')
         self.chat_start_url = self.config.get('boss', 'chat_start_url', fallback='')
+        self.geek_search_url = self.config.get('boss', 'geek_search_url', fallback='')
         # 大模型相关配置
         settings.MODEL = self.config.get('default', 'model', fallback='')
         settings.MODEL_BASE_URL = self.config.get('default', 'model_base_url', fallback='')
