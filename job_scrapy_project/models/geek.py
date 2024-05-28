@@ -6,6 +6,9 @@ class Geek:
         if not candidate_info:
             return
         self.name = candidate_info['geekBaseInfo']['name']
+        # 1:男，0：女
+        self.gender = candidate_info['geekBaseInfo']['gender']
+        self.gender_desc = "男" if candidate_info['geekBaseInfo']['gender'] == 1 else "女"
         self.age_desc = candidate_info['geekBaseInfo']['ageDesc']
         self.degree_category = candidate_info['geekBaseInfo']['degreeCategory']
         self.work_years = candidate_info['geekBaseInfo']['workYears']

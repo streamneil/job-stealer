@@ -39,9 +39,6 @@ class Config:
         self.cookie = self.parse_cookie_string(cookie_string)
         # 加载其他配置
         self.jobs_id = self.config.get('boss', 'jobs_id', fallback='').split(',')
-        self.job_name = self.config.get('boss', 'job_name', fallback='')
-        self.experience = self.config.get('boss', 'experience', fallback='')
-        self.educational_level = self.config.get('boss', 'educational_level', fallback='')
         self.geek_list_url = self.config.get('boss', 'geek_list_url', fallback='')
         self.geek_info_url = self.config.get('boss', 'geek_info_url', fallback='')
         self.job_detail_url = self.config.get('boss', 'job_detail_url', fallback='')

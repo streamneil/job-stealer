@@ -48,8 +48,6 @@ class BossScraper(BaseScraper):
             if _['code'] == 0:
                 log(f"🍋🍋🍋🍋🍋获取职位描述: [{job_id}] {self.config.job_name} 的职位描述，网络获取成功。")
                 j = Job(_['zpData']['job'])
-                j.degree_str = self.config.educational_level
-                j.experience_str = self.config.experience
                 j.skill_list = _['zpData']['skillList']
                 job =j
                 # 存入文件
@@ -148,7 +146,7 @@ class BossScraper(BaseScraper):
         # geek_resume = geek.generate_resume()
 
         prompt = f"""
-            Now you want to recruit a {self.config.job_name}. You are an expert in your field.  You need to evaluate the candidate's resume against the requirements of the position.
+            Now you want to recruit a {job.job_name}. You are an expert in your field.  You need to evaluate the candidate's resume against the requirements of the position.
             Your output must be in the following format, and please use Chinese for the reasons:
             {{
                 "evaluation": "your evaluation",
@@ -220,10 +218,10 @@ class BossScraper(BaseScraper):
         # 工作年限先忽略
         try:
             log(f"-----粗略筛选简历：开始筛选 [{candidate['geekCard']['geekName']}] 的简历....")
-            if candidate['geekCard']['applyStatus'] != 1 and candidate['geekCard']['expectLocationCode'] == job.location and candidate['geekCard']['expectPositionCode'] == job.position:
+            if candidate['geekCard']['applyStatus'] != 1 and candidate['geekCard']['expectLocationCode'] == job.location and candidate['geekCard']['expectPositionCode'] == job.position and candidate['geekCard']['geekGender'] == 1:
                 log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历通过 ➠ 已加入简历库！")
                 return True
-            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历不通过. [{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
+            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
         except:
             # 默认 or 如果来自搜索，则自动通过粗略筛选
             return True
