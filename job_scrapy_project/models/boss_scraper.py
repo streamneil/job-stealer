@@ -5,6 +5,7 @@ from utils import utils
 import settings
 from models.geek import Geek
 from models.job import Job
+from utils.logger import log
 
 class BossScraper(BaseScraper):
     def __init__(self, config):
@@ -38,14 +39,14 @@ class BossScraper(BaseScraper):
         获取职位描述
         """
         # 1. 从缓存文件获取职位描述
-        print(f"-----获取职位描述：开始获取职位描述....")
+        log(f"-----获取职位描述：开始获取职位描述....")
         job_description_filepath = self.OUTPUT_PATH + job_id + '.job_description'
         job = fileutils.load_obj_from_file(job_description_filepath)
         if not job:
             # 请求网络
             _ = utils.get_request(self.config.job_detail_url + f"?encJobId={job_id}", self.headers)
             if _['code'] == 0:
-                print(f"🍋🍋🍋🍋🍋获取职位描述: [{job_id}] {self.config.job_name} 的职位描述，网络获取成功。")
+                log(f"🍋🍋🍋🍋🍋获取职位描述: [{job_id}] {self.config.job_name} 的职位描述，网络获取成功。")
                 j = Job(_['zpData']['job'])
                 j.degree_str = self.config.educational_level
                 j.experience_str = self.config.experience
@@ -54,15 +55,15 @@ class BossScraper(BaseScraper):
                 # 存入文件
                 fileutils.save_obj_to_file(job, job_description_filepath)
             else:
-                print(f"🚫🚫🚫🚫🚫🚫获取职位描述: [{job_id}] {self.config.job_name} 的职位描述，网络获取失败。Error：",_['message'])
+                log(f"🚫🚫🚫🚫🚫🚫获取职位描述: [{job_id}] {self.config.job_name} 的职位描述，网络获取失败。Error：",_['message'], 'error')
         return job
     
     def get_recommended_candidates(self, job_id):
         if random.randint(1, 5) < 3 and self.config.geek_search_url:
-            print(f"😏😏😏😏😏😏 防封随时: 开始抓取'搜索牛人'的简历....")
+            log(f"😏😏😏😏😏😏 防封随时: 开始抓取'搜索牛人'的简历....")
             return self.get_geeks_search(job_id)
         else:
-            print(f"😈😈😈😈😈😈 防封随机: 开始抓取‘推荐牛人’的简历....")
+            log(f"😈😈😈😈😈😈 防封随机: 开始抓取‘推荐牛人’的简历....")
             return self.get_geeks_recommended(job_id)
 
     def get_geeks_recommended(self, job_id):
@@ -72,18 +73,18 @@ class BossScraper(BaseScraper):
         candidates = []
         # 防止被封
         page_num = random.randint(2, 4)
-        print(f"-----获取牛人推荐列表: 开始抓取简历....")
+        log(f"-----获取牛人推荐列表: 开始抓取简历....")
         for page in range(1, page_num):
             # 防止被封
-            print(f"-----获取牛人推荐列表: 开始抓取第 [{page}/{page_num-1}] 页的简历....")
+            log(f"-----获取牛人推荐列表: 开始抓取第 [{page}/{page_num-1}] 页的简历....")
             time.sleep(random.randint(5, 30))
-            print('--->牛人列表请求地址：>\n', self.config.geek_list_url + f"&page={page}&jobId={job_id}")
+            log('--->牛人列表请求地址：>\n', self.config.geek_list_url + f"&page={page}&jobId={job_id}")
             _ = utils.get_request(self.config.geek_list_url + f"&page={page}&jobId={job_id}", self.headers)
             if _['code'] == 0:
-                print(f"🍋🍋🍋🍋🍋获取牛人推荐列表: 第 [{page}]/{page_num-1} 页的简历获取成功....")
+                log(f"🍋🍋🍋🍋🍋获取牛人推荐列表: 第 [{page}]/{page_num-1} 页的简历获取成功....")
                 candidates.extend(_['zpData']['geekList'])
             else:
-                print(f'🚫🚫🚫🚫🚫🚫获取牛人推荐列表：第 [{page}]/{page_num-1} 页的简历获取失败，Error:\n',_['message'])
+                log(f'🚫🚫🚫🚫🚫🚫获取牛人推荐列表：第 [{page}]/{page_num-1} 页的简历获取失败，Error:\n',_['message'], 'error')
         return candidates
     
     def get_geeks_search(self, job_id):
@@ -94,15 +95,15 @@ class BossScraper(BaseScraper):
         # 防止被封
         page_num = random.randint(2, 5)
         page_num = 2
-        print(f"-----获取搜索列表: 开始抓取简历....")
+        log(f"-----获取搜索列表: 开始抓取简历....")
         for page in range(1, page_num):
-            print(f"-----获取搜索荐列表: 开始抓取第 [{page}/{page_num-1}] 页的简历....")
+            log(f"-----获取搜索荐列表: 开始抓取第 [{page}/{page_num-1}] 页的简历....")
             _ = utils.get_request(self.config.geek_search_url + f"&page={page}&jobId={job_id}", self.headers)
             if _['code'] == 0:
-                print(f"🍋🍋🍋🍋🍋获取搜索列表: 第 [{page}]/{page_num-1} 页的简历获取成功....")
+                log(f"🍋🍋🍋🍋🍋获取搜索列表: 第 [{page}]/{page_num-1} 页的简历获取成功....")
                 candidates.extend(_['zpData']['geeks'])
             else:
-                print(f'🚫🚫🚫🚫🚫🚫获取搜索列表：第 [{page}]/{page_num-1} 页的简历获取失败，Error:\n',_['message'])
+                log(f'🚫🚫🚫🚫🚫🚫获取搜索列表：第 [{page}]/{page_num-1} 页的简历获取失败，Error:\n',_['message'], 'error')
         return candidates
 
 
@@ -111,7 +112,7 @@ class BossScraper(BaseScraper):
         获取候选人详情
         """
         if not candidate or not candidate['geekCard']:
-            print('🚫🚫🚫🚫🚫🚫获取牛人简历详情：get_candidate_details candidate is error.')
+            log('🚫🚫🚫🚫🚫🚫获取牛人简历详情：get_candidate_details candidate is error.', 'error')
             return
         exceptId = candidate['geekCard']['expectId']
         jid = candidate['geekCard']['jobId']
@@ -119,7 +120,7 @@ class BossScraper(BaseScraper):
         securityId = candidate['geekCard']['securityId']
         _ = utils.get_request(self.config.geek_info_url + f"&expectId={exceptId}&jid={jid}&lid={lid}&securityId={securityId}", self.headers)
         if _['code'] == 0:
-            print(f"🍋🍋🍋🍋🍋获取牛人简历详情：抓取 [{candidate['geekCard']['geekName'] if candidate['geekCard'] and 'geekName' in candidate['geekCard'] else candidate['geekCard']['name']}] 的简历成功❤")
+            log(f"🍋🍋🍋🍋🍋获取牛人简历详情：抓取 [{candidate['geekCard']['geekName'] if candidate['geekCard'] and 'geekName' in candidate['geekCard'] else candidate['geekCard']['name']}] 的简历成功❤")
             g = Geek(_['zpData']['geekDetailInfo'])
             g.except_id = exceptId
             g.lid = lid
@@ -127,7 +128,7 @@ class BossScraper(BaseScraper):
             g.security_id = securityId
             return g
         else:
-            print(f"🚫🚫🚫🚫🚫🚫获取牛人简历详情：抓取 [{candidate['geekCard']['geekName'] if candidate['geekCard'] and 'geekName' in candidate['geekCard'] else candidate['geekCard']['name']}] 的简历失败")
+            log(f"🚫🚫🚫🚫🚫🚫获取牛人简历详情：抓取 [{candidate['geekCard']['geekName'] if candidate['geekCard'] and 'geekName' in candidate['geekCard'] else candidate['geekCard']['name']}] 的简历失败", 'error')
         return None
     def filter_candidates(self, job, candidates):
         """
@@ -171,21 +172,21 @@ class BossScraper(BaseScraper):
             "prompt": prompt
         }
 
-        print(f"-----大模型比对：开始大模型比对 [{geek.name}] 的简历....")
+        log(f"-----大模型比对：开始大模型比对 [{geek.name}] 的简历....")
         _ = utils.post_request(settings.MODEL_BASE_URL, json_data=body)
         evaluation = 'E'
         reason = '未评价'
         if 'response' in _:
             try:
-                print('---------大模型比对结果-----------\n',_['response'])
+                log('---------大模型比对结果-----------\n',_['response'])
                 res = json.loads(_['response'])
                 if res and 'evaluation' in res:
                     evaluation = res['evaluation']
                 if res and 'reason' in res:
                     reason = res['reason']
             except:
-                print('🚫🚫🚫🚫🚫🚫大模型返回 response 数据异常.')
-                print(f"🚫🚫🚫🚫🚫🚫大模型比对：大模型比对 [{geek.name}] 的简历失败，请查看大模型服务。")
+                log('🚫🚫🚫🚫🚫🚫大模型返回 response 数据异常.', 'error')
+                log(f"🚫🚫🚫🚫🚫🚫大模型比对：大模型比对 [{geek.name}] 的简历失败，请查看大模型服务。", 'error')
                 res = None
             
         # 缓存简历 [20240512][A]王二小.txt
@@ -206,23 +207,24 @@ class BossScraper(BaseScraper):
             "expectId": geek.except_id,
             "securityId": geek.security_id
         }
-        print(f"-----与牛人打招呼：开始和 [{geek.name}] 打招呼....")
+        log(f"-----与牛人打招呼：开始和 [{geek.name}] 打招呼....")
         res = utils.post_request(self.config.chat_start_url, self.headers, data=body)
         if res['code'] == 0 and res['zpData']['status'] == 1:
             # {'code': 0, 'message': 'Success', 'zpData': {'status': 2, 'stateDes': '稍后再试', 'data': {'status': 2}}}
-            print(f"🍋🍋🍋🍋🍋与牛人打招呼：和 [{geek.name}] 打招呼成功，等待牛人回复...")
+            log(f"🍋🍋🍋🍋🍋与牛人打招呼：和 [{geek.name}] 打招呼成功，等待牛人回复...")
         else:
-            print(f"🚫🚫🚫🚫🚫🚫与牛人打招呼：和 [{geek.name}] 打招呼失败，请尽快检查登录是否过期。Error:\n", res)
+            log(f"🚫🚫🚫🚫🚫🚫与牛人打招呼：和 [{geek.name}] 打招呼失败，请尽快检查登录是否过期。", level='error')
+            log(res, level='error')
 
     def is_suitable(self, job, candidate):
         # 求职状态不是’在职-暂不考虑‘ and 意向地点是南京 
         # 工作年限先忽略
         try:
-            print(f"-----粗略筛选简历：开始筛选 [{candidate['geekCard']['geekName']}] 的简历....")
+            log(f"-----粗略筛选简历：开始筛选 [{candidate['geekCard']['geekName']}] 的简历....")
             if candidate['geekCard']['applyStatus'] != 1 and candidate['geekCard']['expectLocationCode'] == job.location and candidate['geekCard']['expectPositionCode'] == job.position:
-                print(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历通过 ➠ 已加入简历库！")
+                log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历通过 ➠ 已加入简历库！")
                 return True
-            print(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历不通过. [{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}")
+            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历不通过. [{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='error')
         except:
             # 默认 or 如果来自搜索，则自动通过粗略筛选
             return True

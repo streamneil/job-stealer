@@ -74,4 +74,4 @@ class Geek:
 # 使用示例
 # 假设 candidate_info 是从某个 API 或数据库中获取的候选人信息字典
 # candidate = GeekCandidate(candidate_info)
-# print(candidate.generate_resume())
+# log(candidate.generate_resume())

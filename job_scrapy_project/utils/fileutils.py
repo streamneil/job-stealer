@@ -24,7 +24,7 @@ def load_obj_from_file(filename, m='rb'):
         with open(filename, m) as f:
             _ = pickle.load(f)
     except:
-        print(f'读取文件[{filename}]失败，')
+        log(f'读取文件[{filename}]失败，')
         return None
     return _
 
