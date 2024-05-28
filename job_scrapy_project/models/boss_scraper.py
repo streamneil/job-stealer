@@ -97,10 +97,10 @@ class BossScraper(BaseScraper):
             log(f"-----获取搜索荐列表: 开始抓取第 [{page}/{page_num-1}] 页的简历....")
             _ = utils.get_request(self.config.geek_search_url + f"&page={page}&jobId={job_id}", self.headers)
             if _['code'] == 0:
-                log(f"🍋🍋🍋🍋🍋获取搜索列表: 第 [{page}]/{page_num-1} 页的简历获取成功....")
+                log(f"🍋🍋🍋🍋🍋获取搜索列表: 第 [{page}/{page_num-1}] 页的简历获取成功....")
                 candidates.extend(_['zpData']['geeks'])
             else:
-                log(f'🚫🚫🚫🚫🚫🚫获取搜索列表：第 [{page}]/{page_num-1} 页的简历获取失败，Error:\n',_['message'], 'error')
+                log(f'🚫🚫🚫🚫🚫🚫获取搜索列表：第 [{page}/{page_num-1}] 页的简历获取失败，Error:\n',_['message'], 'error')
         return candidates
 
 
