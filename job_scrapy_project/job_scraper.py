@@ -25,8 +25,8 @@ class JobScraper:
         for thread in threads:
             thread.join()
 
-    def farmat_index_total(self, index, total):
-        return index + "/" + total
+    def format_index_total(self, index, total):
+        return "{}/{}".format(index, total)
 
     def scrape_for_job(self, scraper, job_id):
         log(f"🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉开始抓取简历🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉")
@@ -41,7 +41,7 @@ class JobScraper:
         log(f'-------- 已初步筛选出 [{candidates_total}] 份简历 -------- ')
         for index, candidate in enumerate(filtered_candidates, start=1):
             # 防止被封
-            log(f"-----获取牛人简历详情：开始抓取 [{candidate['geekCard']['geekName'] if candidate['geekCard'] and 'geekName' in candidate['geekCard'] else candidate['geekCard']['name']} {self.farmat_index_total(index, candidates_total)}] 的简历....")
+            log(f"-----获取牛人简历详情：开始抓取 [{candidate['geekCard']['geekName'] if candidate['geekCard'] and 'geekName' in candidate['geekCard'] else candidate['geekCard']['name']} {self.format_index_total(index, candidates_total)}] 的简历....")
             sleep_time = random.randint(10, 40)
             log(f'防止被封等待随机：[ {sleep_time} ] 秒...')
             time.sleep(sleep_time)
