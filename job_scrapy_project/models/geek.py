@@ -10,6 +10,7 @@ class Geek:
         self.gender = candidate_info['geekBaseInfo']['gender']
         self.gender_desc = "男" if candidate_info['geekBaseInfo']['gender'] == 1 else "女"
         self.age_desc = candidate_info['geekBaseInfo']['ageDesc']
+        self.degree = candidate_info['geekBaseInfo']['degree']
         self.degree_category = candidate_info['geekBaseInfo']['degreeCategory']
         self.work_years = candidate_info['geekBaseInfo']['workYears']
         self.certifications = [item['certName'] for item in candidate_info['geekCertificationList']]
