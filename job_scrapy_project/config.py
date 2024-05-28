@@ -1,6 +1,7 @@
 import configparser
 import os
 import settings
+from utils.logger import log
 
 class Config:
     def __init__(self, filepath=''):
@@ -18,7 +19,7 @@ class Config:
                 key, value = part.strip().split('=', 1)
                 cookies[key] = value
             except ValueError:
-                print(f"Skipping malformed cookie part: {part}")
+                log('Config ini parse [parse_cookie_string] Error', 'error')
                 continue
         return cookies
 

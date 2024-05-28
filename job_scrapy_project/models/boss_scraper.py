@@ -78,7 +78,6 @@ class BossScraper(BaseScraper):
             # 防止被封
             log(f"-----获取牛人推荐列表: 开始抓取第 [{page}/{page_num-1}] 页的简历....")
             time.sleep(random.randint(5, 30))
-            log('--->牛人列表请求地址：>\n', self.config.geek_list_url + f"&page={page}&jobId={job_id}")
             _ = utils.get_request(self.config.geek_list_url + f"&page={page}&jobId={job_id}", self.headers)
             if _['code'] == 0:
                 log(f"🍋🍋🍋🍋🍋获取牛人推荐列表: 第 [{page}]/{page_num-1} 页的简历获取成功....")
@@ -224,7 +223,7 @@ class BossScraper(BaseScraper):
             if candidate['geekCard']['applyStatus'] != 1 and candidate['geekCard']['expectLocationCode'] == job.location and candidate['geekCard']['expectPositionCode'] == job.position:
                 log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历通过 ➠ 已加入简历库！")
                 return True
-            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历不通过. [{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='error')
+            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历不通过. [{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
         except:
             # 默认 or 如果来自搜索，则自动通过粗略筛选
             return True
