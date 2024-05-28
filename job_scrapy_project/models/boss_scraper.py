@@ -145,6 +145,11 @@ class BossScraper(BaseScraper):
         # 牛人简历
         # geek_resume = geek.generate_resume()
 
+        # 先筛选如果是大专，且工作经验小于5年，自动忽略
+        if geek.degree == 202 and geek.work_years < 5:
+            log(f'>>>>>>>>>>>>>>>[{geek.name} {geek.degree_str} 工作年限：{geek.work_years}年，自动忽略~]')
+            return False
+
         prompt = f"""
             Now you want to recruit a {job.job_name}. You are an expert in your field.  You need to evaluate the candidate's resume against the requirements of the position.
             Your output must be in the following format, and please use Chinese for the reasons:
