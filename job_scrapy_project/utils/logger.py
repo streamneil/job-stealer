@@ -4,10 +4,12 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def log(message, level='info'):
+def log(*messages, level='info'):
         """
-        记录日志的方法，自动添加当前时间。
+        记录日志的方法，支持多个字符串参数拼接。
+        自动添加当前时间。
         """
+        message = ''.join(messages)  # 将所有消息拼接成一个字符串
         if level == 'info':
             logger.info(message)
         elif level == 'error':
