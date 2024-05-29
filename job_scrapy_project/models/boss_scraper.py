@@ -225,11 +225,24 @@ class BossScraper(BaseScraper):
             log(f"-----粗略筛选简历：开始筛选 [{candidate['geekCard']['geekName']}] 的简历....")
             if candidate['geekCard']['applyStatus'] != 1 and candidate['geekCard']['expectLocationCode'] == job.location and candidate['geekCard']['expectPositionCode'] == job.position and candidate['geekCard']['geekGender'] == 1:
                 school = candidate['geekCard']['geekEdu']['school']
+                # 自动过滤xx职业技术学院，xx大学xx学院
                 pattern = r'[\u4e00-\u9fa5]+大学[\u4e00-\u9fa5]+学院|[\u4e00-\u9fa5]+职业[\u4e00-\u9fa5]+'
                 if re.match(pattern, school):
                     log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历，院校不通过：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
                     return False
-                log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历通过 ➠ 已加入简历库！")
+                # 过滤工作年限和招聘需求不符的
+                work_year_str = candidate['geekCard']['geekWorkYear']
+                work_year_int = 0
+                if '应届生' in work_year_str:
+                    work_year_int = 0
+                else:
+                    work_year_int = int(work_year_str.replace('年',''))
+            
+                if job.experience_max_year != -1 and work_year_int > job.experience_max_year:
+                    log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历，工作经验不通过：[{candidate['geekCard']['geekName']}][{school}][{work_year_str}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
+                    return
+
+                log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}][{work_year_str}] 的简历通过 ➠ 已加入简历库！")
                 return True
         except:
             # 默认 or 如果来自搜索，则自动通过粗略筛选

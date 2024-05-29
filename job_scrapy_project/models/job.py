@@ -24,8 +24,11 @@ class Job(object):
         self.address_text = position_info['addressText']
         self.degree = position_info['degree']
         self.experience = position_info['experience']
+        # 工作经验要求最大年限，如1，3，5，10
+        self.experience_max_year = settings.EXPERIENCE_MAX_YEAR_DICT[position_info['experience']]
         self.degree_str = settings.DEGRER_DICT.get(position_info['degree'], '未知')
         self.experience_str = settings.EXPERIENCE_DICT.get(position_info['experience'], '未知')
+
 
     def generate_job_desc(self):
         """
