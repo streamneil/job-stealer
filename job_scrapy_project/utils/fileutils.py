@@ -1,4 +1,5 @@
 import os, pickle
+from logger import log
 
 def get_file_content(filename):
     _ = []
@@ -24,7 +25,7 @@ def load_obj_from_file(filename, m='rb'):
         with open(filename, m) as f:
             _ = pickle.load(f)
     except:
-        log(f'读取文件[{filename}]失败，')
+        log(f'读取文件[{filename}]失败')
         return None
     return _
 
