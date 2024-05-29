@@ -147,7 +147,7 @@ class BossScraper(BaseScraper):
 
         # 先筛选如果是大专，且工作经验小于5年，自动忽略
         if geek.degree == 202 and geek.work_years < 5:
-            log(f'>>>>>>>>>>>>>>>[{geek.name} {geek.degree_str} 工作年限：{geek.work_years}年，自动忽略~]')
+            log(f'>>>>>>>>>>>>>>>[{geek.name} {geek.degree_category} 工作年限：{geek.work_years}年，自动忽略~]')
             return False
 
         prompt = f"""
