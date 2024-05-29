@@ -1,5 +1,5 @@
 import os, pickle
-from logger import log
+from utils.logger import log
 
 def get_file_content(filename):
     _ = []

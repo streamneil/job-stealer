@@ -46,14 +46,14 @@ class BossScraper(BaseScraper):
             # 请求网络
             _ = utils.get_request(self.config.job_detail_url + f"?encJobId={job_id}", self.headers)
             if _['code'] == 0:
-                log(f"🍋🍋🍋🍋🍋获取职位描述: [{job_id}] {self.config.job_name} 的职位描述，网络获取成功。")
+                log(f"🍋🍋🍋🍋🍋获取职位描述: [{job_id}]的职位描述，网络获取成功。")
                 j = Job(_['zpData']['job'])
                 j.skill_list = _['zpData']['skillList']
                 job =j
                 # 存入文件
                 fileutils.save_obj_to_file(job, job_description_filepath)
             else:
-                log(f"🚫🚫🚫🚫🚫🚫获取职位描述: [{job_id}] {self.config.job_name} 的职位描述，网络获取失败。Error：",_['message'], 'error')
+                log(f"🚫🚫🚫🚫🚫🚫获取职位描述: [{job_id}] 的职位描述，网络获取失败。Error：",_['message'], 'error')
         return job
     
     def get_recommended_candidates(self, job_id):

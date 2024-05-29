@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import requests,time, json
+import requests, json
 from utils.logger import log
 
 def get_request(url, headers, params=None):
