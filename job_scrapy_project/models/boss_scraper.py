@@ -230,6 +230,7 @@ class BossScraper(BaseScraper):
                 if re.match(pattern, school):
                     log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历，院校不通过：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
                     return False
+                
                 # 过滤工作年限和招聘需求不符的
                 work_year_str = candidate['geekCard']['geekWorkYear']
                 work_year_int = 0
@@ -240,7 +241,7 @@ class BossScraper(BaseScraper):
             
                 if job.experience_max_year != -1 and work_year_int > job.experience_max_year:
                     log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历，工作经验不通过：[{candidate['geekCard']['geekName']}][{school}][{work_year_str}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
-                    return
+                    return False
 
                 log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}][{work_year_str}] 的简历通过 ➠ 已加入简历库！")
                 return True
