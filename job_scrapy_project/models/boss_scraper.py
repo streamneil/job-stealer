@@ -1,4 +1,4 @@
-import time, random, json
+import time, random, json, re
 from models.base_scraper import BaseScraper
 from utils import fileutils
 from utils import utils
@@ -224,9 +224,14 @@ class BossScraper(BaseScraper):
         try:
             log(f"-----粗略筛选简历：开始筛选 [{candidate['geekCard']['geekName']}] 的简历....")
             if candidate['geekCard']['applyStatus'] != 1 and candidate['geekCard']['expectLocationCode'] == job.location and candidate['geekCard']['expectPositionCode'] == job.position and candidate['geekCard']['geekGender'] == 1:
-                log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历通过 ➠ 已加入简历库！")
+                school = candidate['geekCard']['geekEdu']['school']
+                pattern = r'[\u4e00-\u9fa5]+大学[\u4e00-\u9fa5]+学院|[\u4e00-\u9fa5]+职业[\u4e00-\u9fa5]+'
+                if re.match(pattern, school):
+                    log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
+                    return False
+                log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历通过 ➠ 已加入简历库！")
                 return True
-            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
+            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
         except:
             # 默认 or 如果来自搜索，则自动通过粗略筛选
             return True
