@@ -227,14 +227,14 @@ class BossScraper(BaseScraper):
                 school = candidate['geekCard']['geekEdu']['school']
                 pattern = r'[\u4e00-\u9fa5]+大学[\u4e00-\u9fa5]+学院|[\u4e00-\u9fa5]+职业[\u4e00-\u9fa5]+'
                 if re.match(pattern, school):
-                    log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
+                    log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历，院校不通过：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
                     return False
                 log(f"🍋🍋🍋🍋🍋粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历通过 ➠ 已加入简历库！")
                 return True
-            log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
         except:
             # 默认 or 如果来自搜索，则自动通过粗略筛选
             return True
+        log(f"🚫🚫🚫🚫🚫🚫粗略筛选简历：[{candidate['geekCard']['geekName']}][{school}] 的简历不通过. [{'男' if candidate['geekCard']['geekGender'] == 1 else '女'}][{candidate['geekCard']['expectLocationName']}][{candidate['geekCard']['expectPositionName']}]{candidate['geekCard']['applyStatusDesc']}", level='warning')
         return False
 
 
