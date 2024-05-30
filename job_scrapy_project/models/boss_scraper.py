@@ -77,7 +77,7 @@ class BossScraper(BaseScraper):
             log(f"-----获取牛人推荐列表: 开始抓取第 [{page}/{page_num-1}] 页的简历....")
             time.sleep(random.randint(5, 30))
             _ = utils.get_request(self.config.geek_list_url + f"&page={page}&jobId={job_id}", self.headers)
-            if _['code'] == 0:
+            if _ and _['code'] == 0:
                 log(f"🍋🍋🍋🍋🍋获取牛人推荐列表: 第 [{page}]/{page_num-1} 页的简历获取成功....")
                 candidates.extend(_['zpData']['geekList'])
             else:
