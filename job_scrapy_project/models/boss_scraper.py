@@ -187,10 +187,12 @@ class BossScraper(BaseScraper):
                 if res and 'reason' in res:
                     reason = res['reason']
             except:
-                log('🚫🚫🚫🚫🚫🚫大模型返回 response 数据异常.', 'error')
-                log(f"🚫🚫🚫🚫🚫🚫大模型比对：大模型比对 [{geek.name}] 的简历失败，请查看大模型服务。", 'error')
+                log('🚫🚫🚫🚫🚫🚫大模型返回 response 数据异常.', level='error')
+                log(f"🚫🚫🚫🚫🚫🚫大模型比对：大模型比对 [{geek.name}] 的简历失败，请查看大模型服务。", level='error')
                 res = None
             
+        if not isinstance(reason, str):
+            reason = '大模型评价异常'
         # 缓存简历 [20240512][A]王二小.txt
         cretetime = time.strftime("%Y%m%d %H%M", time.localtime())
         fileutils.save_data_to_file(f"{self.OUTPUT_PATH}[{cretetime}][{evaluation}]{geek.name}.txt", geek.generate_resume() + f"\n\n评价：\n[{evaluation}]\n" + reason)
